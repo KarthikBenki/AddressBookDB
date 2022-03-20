@@ -1,32 +1,39 @@
-UC1: Ability to create a Address Book Service DB
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.28 MySQL Community Server - GPL
 
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> ^C
 mysql> create database Address_Book_Service;
-Query OK, 1 row affected (0.30 sec)
+Query OK, 1 row affected (0.01 sec)
 
 mysql> show databases;
-+----------------------+
-| Database             |
-+----------------------+
-| address_book_service |
-| information_schema   |
-| invoicing            |
-| mysql                |
-| payroll_services     |
-| performance_schema   |
-| sakila               |
-| sql_hr               |
-| sql_inventory        |
-| store                |
-| sys                  |
-| world                |
-+----------------------+
-12 rows in set (0.00 sec)
++--------------------------+
+| Database                 |
++--------------------------+
+| address_book_service     |
+| employee_payroll_service |
+| information_schema       |
+| mysql                    |
+| payroll_service          |
+| performance_schema       |
+| sakila                   |
+| sys                      |
+| testdb                   |
+| world                    |
++--------------------------+
+10 rows in set (0.00 sec)
 
 mysql> USE Address_Book_Service;
 Database changed
-
-UC2:Ability to create a Address Book Table with first and last names, address, city, state, zip, phone number and email as its attributes
-
 mysql> create table addressBook
     -> (
     -> firstName VARCHAR(32) NOT NULL,
@@ -38,8 +45,8 @@ mysql> create table addressBook
     -> phoneNumber INT unsigned NOT NULL,
     -> email VARCHAR(150) NOT NULL,
     -> PRIMARY KEY (firstName)
-    -> );
-Query OK, 0 rows affected (1.79 sec)
+    ->  );
+Query OK, 0 rows affected (0.04 sec)
 
 mysql> Describe addressBook;
 +-------------+--------------+------+-----+---------+-------+
@@ -54,15 +61,13 @@ mysql> Describe addressBook;
 | phoneNumber | int unsigned | NO   |     | NULL    |       |
 | email       | varchar(150) | NO   |     | NULL    |       |
 +-------------+--------------+------+-----+---------+-------+
-8 rows in set (0.06 sec)
+8 rows in set (0.02 sec)
 
-
-UC3: Ability to insert new Contacts to Address Book
 mysql> insert into addressBook (firstName, lastName, address, city, state, zip, phoneNumber, email) VALUES
     -> ('Sneha', 'Khan', 'Dighi', 'Pune', 'MH', 570017, 676767, 'SK@gmail.com'),
     -> ('Raj', 'potu', 'Kher', 'Satar', 'MH', 879617, 877767, 'Rp@gmail.com'),
     -> ('Sravani', 'Katta', 'Manchiryal', 'Tn', 'Tn', 1230017, 124767, 'Spr@gmail.com');
-Query OK, 3 rows affected (0.43 sec)
+Query OK, 3 rows affected (0.01 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql> select * from addressBook;
@@ -73,11 +78,10 @@ mysql> select * from addressBook;
 | Sneha     | Khan     | Dighi      | Pune  | MH    |  570017 |      676767 | SK@gmail.com  |
 | Sravani   | Katta    | Manchiryal | Tn    | Tn    | 1230017 |      124767 | Spr@gmail.com |
 +-----------+----------+------------+-------+-------+---------+-------------+---------------+
-3 rows in set (0.03 sec)
+3 rows in set (0.00 sec)
 
-UC4: Ability to edit existing contact person using their name
 mysql> update addressBook set city = 'Mumbai' where firstName = 'Sneha';
-Query OK, 1 row affected (0.33 sec)
+Query OK, 1 row affected (0.01 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> select * from addressBook;
@@ -88,15 +92,12 @@ mysql> select * from addressBook;
 | Sneha     | Khan     | Dighi      | Mumbai | MH    |  570017 |      676767 | SK@gmail.com  |
 | Sravani   | Katta    | Manchiryal | Tn     | Tn    | 1230017 |      124767 | Spr@gmail.com |
 +-----------+----------+------------+--------+-------+---------+-------------+---------------+
-3 rows in set (0.08 sec)
-
-
-UC5:Ability to delete a person using person's name
+3 rows in set (0.00 sec)
 
 mysql> delete from addressBook  where firstName = 'Raj';
-Query OK, 1 row affected (0.12 sec)
+Query OK, 1 row affected (0.01 sec)
 
-mysql> SELECT * from addressBook;
+mysql> select * from addressBook;
 +-----------+----------+------------+--------+-------+---------+-------------+---------------+
 | firstName | lastName | address    | city   | state | zip     | phoneNumber | email         |
 +-----------+----------+------------+--------+-------+---------+-------------+---------------+
@@ -105,11 +106,9 @@ mysql> SELECT * from addressBook;
 +-----------+----------+------------+--------+-------+---------+-------------+---------------+
 2 rows in set (0.00 sec)
 
-
-UC6: Ability to Retrieve Person belonging to a City or State from the Address Book
 mysql> insert into addressBook (firstName, lastName, address, city, state, zip,phoneNumber, email) VALUES
     -> ('Raj', 'potu', 'Satar', 'Satar', 'MH', 879617, 877767, 'Rp@gmail.com');
-Query OK, 1 row affected (0.14 sec)
+Query OK, 1 row affected (0.01 sec)
 
 mysql> select * from addressBook where city = 'Satar';
 +-----------+----------+---------+-------+-------+--------+-------------+--------------+
@@ -117,10 +116,8 @@ mysql> select * from addressBook where city = 'Satar';
 +-----------+----------+---------+-------+-------+--------+-------------+--------------+
 | Raj       | potu     | Satar   | Satar | MH    | 879617 |      877767 | Rp@gmail.com |
 +-----------+----------+---------+-------+-------+--------+-------------+--------------+
-1 row in set (0.06 sec)
+1 row in set (0.00 sec)
 
-
-UC7:Ability to understand the count of address book by City and State
 mysql> select city, Count(firstName) from addressBook group by city;
 +--------+------------------+
 | city   | Count(firstName) |
@@ -131,7 +128,6 @@ mysql> select city, Count(firstName) from addressBook group by city;
 +--------+------------------+
 3 rows in set (0.00 sec)
 
-UC8:Ability to retrieve entries sorted alphabetically by Person’s name for a given city
 mysql> select * from addressBook where city = 'Mumbai' ORDER BY firstName ASC;
 +-----------+----------+---------+--------+-------+--------+-------------+--------------+
 | firstName | lastName | address | city   | state | zip    | phoneNumber | email        |
@@ -139,3 +135,5 @@ mysql> select * from addressBook where city = 'Mumbai' ORDER BY firstName ASC;
 | Sneha     | Khan     | Dighi   | Mumbai | MH    | 570017 |      676767 | SK@gmail.com |
 +-----------+----------+---------+--------+-------+--------+-------------+--------------+
 1 row in set (0.00 sec)
+
+mysql>
